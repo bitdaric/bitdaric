@@ -1,0 +1,22 @@
+[Unit]
+Description=BitDaric's distributed currency daemon
+After=network.target
+
+[Service]
+User=bitdaric
+Group=bitdaric
+
+Type=forking
+PIDFile=/var/lib/bitdaricd/bitdaricd.pid
+ExecStart=/usr/bin/bitdaricd -daemon -pid=/var/lib/bitdaricd/bitdaricd.pid \
+-conf=/etc/bitdaric/bitdaric.conf -datadir=/var/lib/bitdaricd -disablewallet
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

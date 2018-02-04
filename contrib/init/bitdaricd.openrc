@@ -1,0 +1,88 @@
+#!/sbin/runscript
+
+# backward compatibility for existing gentoo layout 
+#
+if [ -d "/var/lib/bitdaric/.bitdaric" ]; then
+	BITDARICD_DEFAULT_DATADIR="/var/lib/bitdaric/.bitdaric"
+else
+	BITDARICD_DEFAULT_DATADIR="/var/lib/bitdaricd"
+fi
+
+BITDARICD_CONFIGFILE=${BITDARICD_CONFIGFILE:-/etc/bitdaric/bitdaric.conf}
+BITDARICD_PIDDIR=${BITDARICD_PIDDIR:-/var/run/bitdaricd}
+BITDARICD_PIDFILE=${BITDARICD_PIDFILE:-${BITDARICD_PIDDIR}/bitdaricd.pid}
+BITDARICD_DATADIR=${BITDARICD_DATADIR:-${BITDARICD_DEFAULT_DATADIR}}
+BITDARICD_USER=${BITDARICD_USER:-${BITDARIC_USER:-bitdaric}}
+BITDARICD_GROUP=${BITDARICD_GROUP:-bitdaric}
+BITDARICD_BIN=${BITDARICD_BIN:-/usr/bin/bitdaricd}
+BITDARICD_NICE=${BITDARICD_NICE:-${NICELEVEL:-0}}
+BITDARICD_OPTS="${BITDARICD_OPTS:-${BITDARIC_OPTS}}"
+
+name="BitDaric Core Daemon"
+description="BitDaric cryptocurrency P2P network daemon"
+
+command="/usr/bin/bitdaricd"
+command_args="-pid=\"${BITDARICD_PIDFILE}\" \
+		-conf=\"${BITDARICD_CONFIGFILE}\" \
+		-datadir=\"${BITDARICD_DATADIR}\" \
+		-daemon \
+		${BITDARICD_OPTS}"
+
+required_files="${BITDARICD_CONFIGFILE}"
+start_stop_daemon_args="-u ${BITDARICD_USER} \
+			-N ${BITDARICD_NICE} -w 2000"
+pidfile="${BITDARICD_PIDFILE}"
+retry=60
+
+depend() {
+	need localmount net
+}
+
+# verify
+# 1) that the datadir exists and is writable (or create it)
+# 2) that a directory for the pid exists and is writable
+# 3) ownership and permissions on the config file
+start_pre() {
+	checkpath \
+	-d \
+	--mode 0750 \
+	--owner "${BITDARICD_USER}:${BITDARICD_GROUP}" \
+	"${BITDARICD_DATADIR}"
+
+	checkpath \
+	-d \
+	--mode 0755 \
+	--owner "${BITDARICD_USER}:${BITDARICD_GROUP}" \
+	"${BITDARICD_PIDDIR}"
+
+	checkpath -f \
+	-o ${BITDARICD_USER}:${BITDARICD_GROUP} \
+	-m 0660 \
+	${BITDARICD_CONFIGFILE}
+
+	checkconfig || return 1
+}
+
+checkconfig()
+{
+	if ! grep -qs '^rpcpassword=' "${BITDARICD_CONFIGFILE}" ; then
+		eerror ""
+		eerror "ERROR: You must set a secure rpcpassword to run bitdaricd."
+		eerror "The setting must appear in ${BITDARICD_CONFIGFILE}"
+		eerror ""
+		eerror "This password is security critical to securing wallets "
+		eerror "and must not be the same as the rpcuser setting."
+		eerror "You can generate a suitable random password using the following"
+		eerror "command from the shell:"
+		eerror ""
+		eerror "bash -c 'tr -dc a-zA-Z0-9 < /dev/urandom | head -c32 && echo'"
+		eerror ""
+		eerror "It is also recommended that you also set alertnotify so you are "
+		eerror "notified of problems:"
+		eerror ""
+		eerror "ie: alertnotify=echo %%s | mail -s \"BitDaric Alert\"" \
+			"admin@foo.com"
+		eerror ""
+		return 1
+	fi
+}

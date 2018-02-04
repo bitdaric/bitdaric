@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=BitDaric
+Comment=BitDaric P2P Cryptocurrency
+Comment[fr]=BitDaric, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=BitDaric, eşten eşe kriptografik sanal para birimi
+Exec=bitdaric-qt %u
+Terminal=false
+Type=Application
+Icon=bitdaric128
+MimeType=x-scheme-handler/bitdaric;
+Categories=Office;Finance;

@@ -1,0 +1,27 @@
+# /etc/conf.d/bitdaricd: config file for /etc/init.d/bitdaricd
+
+# Config file location
+#BITDARICD_CONFIGFILE="/etc/bitdaric/bitdaric.conf"
+
+# What directory to write pidfile to?  (created and owned by $BITDARICD_USER)
+#BITDARICD_PIDDIR="/var/run/bitdaricd"
+
+# What filename to give the pidfile
+#BITDARICD_PIDFILE="${BITDARICD_PIDDIR}/bitdaricd.pid"
+
+# Where to write bitdaricd data (be mindful that the blockchain is large)
+#BITDARICD_DATADIR="/var/lib/bitdaricd"
+
+# User and group to own bitdaricd process
+#BITDARICD_USER="bitdaric"
+#BITDARICD_GROUP="bitdaric"
+
+# Path to bitdaricd executable
+#BITDARICD_BIN="/usr/bin/bitdaricd"
+
+# Nice value to run bitdaricd under
+#BITDARICD_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+BITDARICD_OPTS="-disablewallet"
+

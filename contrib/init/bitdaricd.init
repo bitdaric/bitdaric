@@ -1,0 +1,67 @@
+#!/bin/bash
+#
+#  bitdaricd The bitdaric core server.
+#
+#
+# chkconfig: 345 80 20
+# description: bitdaricd
+# processname: bitdaricd
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/bitdaricd, see below
+if [ -f /etc/sysconfig/bitdaricd ]; then
+        . /etc/sysconfig/bitdaricd
+fi
+
+RETVAL=0
+
+prog=bitdaricd
+# you can override the lockfile via BITDARICD_LOCKFILE in /etc/sysconfig/bitdaricd
+lockfile=${BITDARICD_LOCKFILE-/var/lock/subsys/bitdaricd}
+
+# bitdaricd defaults to /usr/bin/bitdaricd, override with BITDARICD_BIN
+bitdaricd=${BITDARICD_BIN-/usr/bin/bitdaricd}
+
+# bitdaricd opts default to -disablewallet, override with BITDARICD_OPTS
+bitdaricd_opts=${BITDARICD_OPTS--disablewallet}
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon $DAEMONOPTS $bitdaricd $bitdaricd_opts
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac
