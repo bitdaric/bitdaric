@@ -125,7 +125,7 @@ bool CheckAuxPowProofOfWork(const CBlockHeader& block, const Consensus::Params& 
 CAmount GetBitDaricBlockSubsidy(int nHeight, const Consensus::Params& consensusParams, uint256 prevHash)
 {
 
-		// every 70000000 blocks = 1 reward!
+		// every 7000000 blocks = 1 reward!
 	  int points = nHeight / consensusParams.nSubsidyHalvingInterval; 
 	  //* consensusParams.nSubsidyHalvingInterval) / (consensusParams.nPowTargetTimespan * consensusParams.nPowTargetSpacing);
 
