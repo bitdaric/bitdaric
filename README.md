@@ -11,21 +11,37 @@ Estimated block generation is 1 per minute so rewards of every block would be 10
 Here is calculation of coin supply over the time (if block generation would be as fast as 1 per minute):
 
 Approximately  66,166,320 coins in 1 year. 10 rewards per block.
+
 Approximately  71,422,320 coins in 2 years. 10 rewards per block.
+
 Approximately  76,678,320 coins in 3 years. 10 rewards per block.
+
 Approximately  81,934,320 coins in 4 years. 10 rewards per block.
+
 Approximately  208,078,320 coins in 27 years. 20 rewards per block.
+
 Approximately  349,990,320 coins in 40 years. 30 rewards per block.
+
 Approximately  575,998,320 coins in 54 years. 40 rewards per block.
+
 Approximately  854,566,320 coins in 67 years. 50 rewards per block.
+
 Approximately  1,201,462,320 coins in 80 years. 60 rewards per block.
+
 Approximately  1,648,222,320 coins in 94 years. 70 rewards per block.
+
 Approximately  2,131,774,320 coins in 107 years. 80 rewards per block.
+
 Approximately  2,683,654,320 coins in 120 years. 90 rewards per block.
+
 Approximately  3,351,166,320 coins in 134 years. 100 rewards per block.
+
 .
+
 .
+
 .
+
 Approximately  347,004,214,320 coins in 1,332 years! 1000 rewards per block.
 
 ## Website
