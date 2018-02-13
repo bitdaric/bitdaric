@@ -13,7 +13,6 @@ else
     exit 1
 fi
 
-
 DESC=""
 SUFFIX=""
 LAST_COMMIT_DATE=""
