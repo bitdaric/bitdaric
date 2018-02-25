@@ -126,7 +126,7 @@ public:
         vSeeds.push_back(CDNSSeedData("seed.bitdaric.com", "server1.bitdaric.com"));
         vSeeds.push_back(CDNSSeedData("seed2.bitdaric.com", "server2.bitdaric.com"));
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);  // R
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);  // 0x3c (R)
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,22);  // 0x16
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,158); // 0x9e
         base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x88)(0xb2)(0x1e).convert_to_container<std::vector<unsigned char> >(); //xpub
@@ -241,7 +241,7 @@ public:
         vSeeds.clear();
         vSeeds.push_back(CDNSSeedData("testseed.bitdaric.com", "testserver1.bitdaric.com"));
 
-        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,127); // t
+        base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,127); // 0x7f (t)
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,196); // 0xc4
         base58Prefixes[SECRET_KEY] =     std::vector<unsigned char>(1,241); // 0xf1
         base58Prefixes[EXT_PUBLIC_KEY] = boost::assign::list_of(0x04)(0x35)(0x87)(0xcf).convert_to_container<std::vector<unsigned char> >();

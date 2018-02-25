@@ -23,7 +23,7 @@ remotes:
 - "url": "https://github.com/bitdaric/bitdaric.git"
   "dir": "bitdaric"
 files:
-- "MacOSX10.9.sdk.tar.gz"
+- "MacOSX10.11.sdk.tar.gz"
 script: |
   WRAP_DIR=$HOME/wrapped
   HOSTS="x86_64-apple-darwin11"
