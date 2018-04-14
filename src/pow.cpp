@@ -32,7 +32,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
     }
 
 	if(pindexLast->nHeight < EDA_EFFECTIVE_HEIGHT) {
-	LogPrintf("EDA not effective nHeight = %d\n",pindexLast->nHeight);
+	//LogPrintf("EDA not effective nHeight = %d\n",pindexLast->nHeight);
 
 	    // Only change once per difficulty adjustment interval
 	    if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
@@ -71,7 +71,19 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 	    return CalculateBitDaricNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
 	} else {
 		// Emergency Difficulty Adjustement (EDA)
-		LogPrintf("EDA effective nHeight = %d\n");
+		//LogPrintf("EDA effective nHeight = %d\n", pindexLast->nHeight);
+
+		// Stalled Network Recovery (SNR)
+	    if (GetAdjustedTime() > pindexLast->GetBlockTime() + 72 * 3600)
+	    {
+	   		arith_uint256 nPow2;
+	   		nPow2.SetCompact(pindexLast->nBits);
+	   		const arith_uint256 bnPowLimit2 = UintToArith256(params.powLimit);
+	    	nPow2 = bnPowLimit2;
+    		LogPrintf("SNR effective nHeight = %d, Diff. = \n", pindexLast->nHeight, nPow2.GetCompact());
+    		return nPow2.GetCompact();
+		}
+		
 	    // If producing the last 6 block took less than 12h, we keep the same
 	    // difficulty.
 	    const CBlockIndex *pindex6 = pindexLast->GetAncestor(pindexLast->nHeight - 7);
@@ -80,7 +92,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 
 	    if (mtp6blocks < 12 * 3600)
 	    {
-
+			//LogPrintf("EDA keep the same diff. mtp = %d\n", mtp6blocks);
 		    // Only change once per difficulty adjustment interval
 		    if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
 		    {
@@ -117,7 +129,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 		
 	    	return CalculateBitDaricNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
 		}
-		LogPrintf("EDA begin\n");
+		//LogPrintf("EDA begin\n");
 
 	   	// If producing the last 6 block took more than 12h, increase the difficulty
 	   	// target by 1/4 (which reduces the difficulty by 20%). This ensure the
@@ -127,6 +139,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 
 	    if ((mtp6blocks >= 12 * 3600) || (GetAdjustedTime() > pindexLast->GetBlockTime() + 24 * 3600))
 	    {
+	    	LogPrintf("EDA set\n");
 	    	nPow += (nPow >> 2);
 		}
 
@@ -135,14 +148,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 	    if (nPow > bnPowLimit)
 	        nPow = bnPowLimit;
 		
-		// Stalled Network Recovery (SNR)
-	    if (GetAdjustedTime() > pindexLast->GetBlockTime() + 72 * 3600)
-	    {
-	    	nPow = bnPowLimit;
-    		LogPrintf("SNR effective nHeight = %d\n");
-		}
-		
-    	LogPrintf("EDA end\n");
+    	//LogPrintf("EDA end\n");
 	    return nPow.GetCompact();
 	}
 }
