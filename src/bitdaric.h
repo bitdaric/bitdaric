@@ -7,7 +7,7 @@
 #include "chainparams.h"
 
 /** EDA efective block height **/
-static const unsigned int EDA_EFECTIVE_HEIGHT = 192448;
+static const unsigned int EDA_EFFECTIVE_HEIGHT = 192448;
 
 bool AllowDigishieldMinDifficultyForBlock(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params);
 CAmount GetBitDaricBlockSubsidy(int nHeight, const Consensus::Params& consensusParams, uint256 prevHash);

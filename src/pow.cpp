@@ -31,29 +31,31 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         return nProofOfWorkLimit;
     }
 
-    // Only change once per difficulty adjustment interval
-    if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
-    {
-        if (params.fPowAllowMinDifficultyBlocks)
-        {
-            // Special difficulty rule for testnet:
-            // If the new block's timestamp is more than 2* 10 minutes
-            // then allow mining of a min-difficulty block.
-            if (pblock->GetBlockTime() > pindexLast->GetBlockTime() + params.nPowTargetSpacing*2)
-                return nProofOfWorkLimit;
-            else
-            {
-                // Return the last non-special-min-difficulty-rules-block
-                const CBlockIndex* pindex = pindexLast;
-                while (pindex->pprev && pindex->nHeight % params.DifficultyAdjustmentInterval() != 0 && pindex->nBits == nProofOfWorkLimit)
-                    pindex = pindex->pprev;
-                return pindex->nBits;
-            }
-        }
-        return pindexLast->nBits;
-    }
+	if(pindexLast->nHeight < EDA_EFFECTIVE_HEIGHT) {
+	LogPrintf("EDA not effective nHeight = %d\n",pindexLast->nHeight);
 
-	if(pindexLast->nHeight < EDA_EFECTIVE_HEIGHT) {
+	    // Only change once per difficulty adjustment interval
+	    if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
+	    {
+	        if (params.fPowAllowMinDifficultyBlocks)
+	        {
+	            // Special difficulty rule for testnet:
+	            // If the new block's timestamp is more than 2* 10 minutes
+	            // then allow mining of a min-difficulty block.
+	            if (pblock->GetBlockTime() > pindexLast->GetBlockTime() + params.nPowTargetSpacing*2)
+	                return nProofOfWorkLimit;
+	            else
+	            {
+	                // Return the last non-special-min-difficulty-rules-block
+	                const CBlockIndex* pindex = pindexLast;
+	                while (pindex->pprev && pindex->nHeight % params.DifficultyAdjustmentInterval() != 0 && pindex->nBits == nProofOfWorkLimit)
+	                    pindex = pindex->pprev;
+	                return pindex->nBits;
+	            }
+	        }
+	        return pindexLast->nBits;
+	    }
+
 	    // Litecoin: This fixes an issue where a 51% attack can change difficulty at will.
 	    // Go back the full period unless it's the first retarget after genesis. Code courtesy of Art Forz
 	    int blockstogoback = params.DifficultyAdjustmentInterval()-1;
@@ -69,6 +71,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 	    return CalculateBitDaricNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
 	} else {
 		// Emergency Difficulty Adjustement (EDA)
+		LogPrintf("EDA effective nHeight = %d\n");
 	    // If producing the last 6 block took less than 12h, we keep the same
 	    // difficulty.
 	    const CBlockIndex *pindex6 = pindexLast->GetAncestor(pindexLast->nHeight - 7);
@@ -77,6 +80,29 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 
 	    if (mtp6blocks < 12 * 3600)
 	    {
+
+		    // Only change once per difficulty adjustment interval
+		    if ((pindexLast->nHeight+1) % params.DifficultyAdjustmentInterval() != 0)
+		    {
+		        if (params.fPowAllowMinDifficultyBlocks)
+		        {
+		            // Special difficulty rule for testnet:
+		            // If the new block's timestamp is more than 2* 10 minutes
+		            // then allow mining of a min-difficulty block.
+		            if (pblock->GetBlockTime() > pindexLast->GetBlockTime() + params.nPowTargetSpacing*2)
+		                return nProofOfWorkLimit;
+		            else
+		            {
+		                // Return the last non-special-min-difficulty-rules-block
+		                const CBlockIndex* pindex = pindexLast;
+		                while (pindex->pprev && pindex->nHeight % params.DifficultyAdjustmentInterval() != 0 && pindex->nBits == nProofOfWorkLimit)
+		                    pindex = pindex->pprev;
+		                return pindex->nBits;
+		            }
+		        }
+		        return pindexLast->nBits;
+		    }
+
 	    	// Litecoin: This fixes an issue where a 51% attack can change difficulty at will.
 	    	// Go back the full period unless it's the first retarget after genesis. Code courtesy of Art Forz
 	    	int blockstogoback = params.DifficultyAdjustmentInterval()-1;
@@ -91,6 +117,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 		
 	    	return CalculateBitDaricNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
 		}
+		LogPrintf("EDA begin\n");
 
 	   	// If producing the last 6 block took more than 12h, increase the difficulty
 	   	// target by 1/4 (which reduces the difficulty by 20%). This ensure the
@@ -112,8 +139,10 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 	    if (GetAdjustedTime() > pindexLast->GetBlockTime() + 72 * 3600)
 	    {
 	    	nPow = bnPowLimit;
+    		LogPrintf("SNR effective nHeight = %d\n");
 		}
 		
+    	LogPrintf("EDA end\n");
 	    return nPow.GetCompact();
 	}
 }
