@@ -80,7 +80,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 	   		nPow2.SetCompact(pindexLast->nBits);
 	   		const arith_uint256 bnPowLimit2 = UintToArith256(params.powLimit);
 	    	nPow2 = bnPowLimit2;
-    		LogPrintf("SNR effective nHeight = %d, Diff. = %d\n", pindexLast->nHeight, nPow2.GetCompact());
+    		//LogPrintf("SNR effective nHeight = %d, Diff. = %d\n", pindexLast->nHeight, nPow2.GetCompact());
     		return nPow2.GetCompact();
 		}
 		
@@ -139,7 +139,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 
 	    if ((mtp6blocks >= 12 * 3600) || (GetAdjustedTime() > pindexLast->GetBlockTime() + 24 * 3600))
 	    {
-	    	LogPrintf("EDA set\n");
+	    	//LogPrintf("EDA set\n");
 	    	nPow += (nPow >> 2);
 		}
 
