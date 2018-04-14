@@ -80,7 +80,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 	   		nPow2.SetCompact(pindexLast->nBits);
 	   		const arith_uint256 bnPowLimit2 = UintToArith256(params.powLimit);
 	    	nPow2 = bnPowLimit2;
-    		LogPrintf("SNR effective nHeight = %d, Diff. = \n", pindexLast->nHeight, nPow2.GetCompact());
+    		LogPrintf("SNR effective nHeight = %d, Diff. = %d\n", pindexLast->nHeight, nPow2.GetCompact());
     		return nPow2.GetCompact();
 		}
 		
