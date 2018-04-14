@@ -9,6 +9,7 @@
 #include "arith_uint256.h"
 #include "chain.h"
 #include "bitdaric.h"
+#include "timedata.h"
 #include "primitives/block.h"
 #include "uint256.h"
 #include "util.h"
@@ -52,19 +53,69 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
         return pindexLast->nBits;
     }
 
-    // Litecoin: This fixes an issue where a 51% attack can change difficulty at will.
-    // Go back the full period unless it's the first retarget after genesis. Code courtesy of Art Forz
-    int blockstogoback = params.DifficultyAdjustmentInterval()-1;
-    if ((pindexLast->nHeight+1) != params.DifficultyAdjustmentInterval())
-        blockstogoback = params.DifficultyAdjustmentInterval();
+	if(pindexLast->nHeight < EDA_EFECTIVE_HEIGHT) {
+	    // Litecoin: This fixes an issue where a 51% attack can change difficulty at will.
+	    // Go back the full period unless it's the first retarget after genesis. Code courtesy of Art Forz
+	    int blockstogoback = params.DifficultyAdjustmentInterval()-1;
+	    if ((pindexLast->nHeight+1) != params.DifficultyAdjustmentInterval())
+	        blockstogoback = params.DifficultyAdjustmentInterval();
 
-    // Go back by what we want to be 14 days worth of blocks
-    int nHeightFirst = pindexLast->nHeight - blockstogoback;
-    assert(nHeightFirst >= 0);
-    const CBlockIndex* pindexFirst = pindexLast->GetAncestor(nHeightFirst);
-    assert(pindexFirst);
+	    // Go back by what we want to be 14 days worth of blocks
+	    int nHeightFirst = pindexLast->nHeight - blockstogoback;
+	    assert(nHeightFirst >= 0);
+	    const CBlockIndex* pindexFirst = pindexLast->GetAncestor(nHeightFirst);
+	    assert(pindexFirst);
 
-    return CalculateBitDaricNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
+	    return CalculateBitDaricNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
+	} else {
+		// Emergency Difficulty Adjustement (EDA)
+	    // If producing the last 6 block took less than 12h, we keep the same
+	    // difficulty.
+	    const CBlockIndex *pindex6 = pindexLast->GetAncestor(pindexLast->nHeight - 7);
+	    assert(pindex6);
+	    int64_t mtp6blocks = pindexLast->GetMedianTimePast() - pindex6->GetMedianTimePast();
+
+	    if (mtp6blocks < 12 * 3600)
+	    {
+	    	// Litecoin: This fixes an issue where a 51% attack can change difficulty at will.
+	    	// Go back the full period unless it's the first retarget after genesis. Code courtesy of Art Forz
+	    	int blockstogoback = params.DifficultyAdjustmentInterval()-1;
+	    	if ((pindexLast->nHeight+1) != params.DifficultyAdjustmentInterval())
+	        	blockstogoback = params.DifficultyAdjustmentInterval();
+		
+	    	// Go back by what we want to be 14 days worth of blocks
+	    	int nHeightFirst = pindexLast->nHeight - blockstogoback;
+	    	assert(nHeightFirst >= 0);
+	    	const CBlockIndex* pindexFirst = pindexLast->GetAncestor(nHeightFirst);
+	    	assert(pindexFirst);
+		
+	    	return CalculateBitDaricNextWorkRequired(pindexLast, pindexFirst->GetBlockTime(), params);
+		}
+
+	   	// If producing the last 6 block took more than 12h, increase the difficulty
+	   	// target by 1/4 (which reduces the difficulty by 20%). This ensure the
+	   	// chain do not get stuck in case we lose hashrate abruptly.
+	   	arith_uint256 nPow;
+	   	nPow.SetCompact(pindexLast->nBits);
+
+	    if ((mtp6blocks >= 12 * 3600) || (GetAdjustedTime() > pindexLast->GetBlockTime() + 24 * 3600))
+	    {
+	    	nPow += (nPow >> 2);
+		}
+
+	    // Make sure we do not go bellow allowed values.
+	    const arith_uint256 bnPowLimit = UintToArith256(params.powLimit);
+	    if (nPow > bnPowLimit)
+	        nPow = bnPowLimit;
+		
+		// Stalled Network Recovery (SNR)
+	    if (GetAdjustedTime() > pindexLast->GetBlockTime() + 72 * 3600)
+	    {
+	    	nPow = bnPowLimit;
+		}
+		
+	    return nPow.GetCompact();
+	}
 }
 
 unsigned int CalculateNextWorkRequired(const CBlockIndex* pindexLast, int64_t nFirstBlockTime, const Consensus::Params& params)

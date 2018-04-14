@@ -88,7 +88,7 @@ void UpdateTime(CBlockHeader* pblock, const Consensus::Params& consensusParams, 
     pblock->nTime = std::max(pindexPrev->GetMedianTimePast()+1, GetAdjustedTime());
 
     // Updating time can change work required on testnet:
-    if (consensusParams.fPowAllowMinDifficultyBlocks)
+    if (consensusParams.fPowAllowMinDifficultyBlocks || (bool)(pindexPrev->nHeight >= EDA_EFECTIVE_HEIGHT))
         pblock->nBits = GetNextWorkRequired(pindexPrev, pblock, consensusParams);
 }
 

@@ -6,6 +6,9 @@
 #include "chain.h"
 #include "chainparams.h"
 
+/** EDA efective block height **/
+static const unsigned int EDA_EFECTIVE_HEIGHT = 192448;
+
 bool AllowDigishieldMinDifficultyForBlock(const CBlockIndex* pindexLast, const CBlockHeader *pblock, const Consensus::Params& params);
 CAmount GetBitDaricBlockSubsidy(int nHeight, const Consensus::Params& consensusParams, uint256 prevHash);
 unsigned int CalculateBitDaricNextWorkRequired(const CBlockIndex* pindexLast, int64_t nLastRetargetTime, const Consensus::Params& params);
