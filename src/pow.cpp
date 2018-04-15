@@ -74,14 +74,12 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 		//LogPrintf("EDA effective nHeight = %d\n", pindexLast->nHeight);
 
 		// Stalled Network Recovery (SNR)
-	    if (GetAdjustedTime() > pindexLast->GetBlockTime() + 72 * 3600)
+        // If the new block's timestamp is more than 72h
+        // then allow mining of a min-difficulty block.
+	    if (pblock->GetBlockTime() > pindexLast->GetBlockTime() + 72 * 3600)
 	    {
-	   		arith_uint256 nPow2;
-	   		nPow2.SetCompact(pindexLast->nBits);
-	   		const arith_uint256 bnPowLimit2 = UintToArith256(params.powLimit);
-	    	nPow2 = bnPowLimit2;
-    		//LogPrintf("SNR effective nHeight = %d, Diff. = %d\n", pindexLast->nHeight, nPow2.GetCompact());
-    		return nPow2.GetCompact();
+    		//LogPrintf("SNR effective nHeight = %d\n", pindexLast->nHeight);
+    		return nProofOfWorkLimit;
 		}
 		
 	    // If producing the last 6 block took less than 12h, we keep the same

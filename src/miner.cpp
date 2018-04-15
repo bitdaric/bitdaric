@@ -87,7 +87,7 @@ void UpdateTime(CBlockHeader* pblock, const Consensus::Params& consensusParams, 
 {
     pblock->nTime = std::max(pindexPrev->GetMedianTimePast()+1, GetAdjustedTime());
 
-    // Updating time can change work required on testnet:
+    // Updating time can change work required on testnet || EDA Effective:
     if (consensusParams.fPowAllowMinDifficultyBlocks || (bool)(pindexPrev->nHeight >= EDA_EFFECTIVE_HEIGHT))
         pblock->nBits = GetNextWorkRequired(pindexPrev, pblock, consensusParams);
 }
@@ -546,7 +546,7 @@ void static BitcoinMiner(CWallet *pwallet)
                 UpdateTime(pblock, consensus, pindexPrev);
                 if (consensus.fPowAllowMinDifficultyBlocks || (bool)(pindexPrev->nHeight >= EDA_EFFECTIVE_HEIGHT))
                 {
-                    // Changing pblock->nTime can change work required on testnet:
+                    // Changing pblock->nTime can change work required on testnet || EDA Effective:
                     hashTarget.SetCompact(pblock->nBits);
                 }
             }
