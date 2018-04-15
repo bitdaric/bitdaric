@@ -135,7 +135,7 @@ unsigned int GetNextWorkRequired(const CBlockIndex* pindexLast, const CBlockHead
 	   	arith_uint256 nPow;
 	   	nPow.SetCompact(pindexLast->nBits);
 
-	    if ((mtp6blocks >= 12 * 3600) || (GetAdjustedTime() > pindexLast->GetBlockTime() + 24 * 3600))
+	    if (mtp6blocks >= 12 * 3600)
 	    {
 	    	//LogPrintf("EDA set\n");
 	    	nPow += (nPow >> 2);
