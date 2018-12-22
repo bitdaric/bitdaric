@@ -45,7 +45,7 @@ static const int MAX_URI_LENGTH = 255;
 #define SPINNER_FRAMES 35
 
 #define QAPP_ORG_NAME "BitDaric"
-#define QAPP_ORG_DOMAIN "bitdaric.com"
+#define QAPP_ORG_DOMAIN "bitdaric.live"
 #define QAPP_APP_NAME_DEFAULT "BitDaric-Qt"
 #define QAPP_APP_NAME_TESTNET "BitDaric-Qt-testnet"
 

@@ -34,7 +34,7 @@ Year | Approx. coins | Rewards
 1,332 | 347,004,214,320 | 1000
 
 ## Website
-http://www.bitdaric.com/
+http://www.bitdaric.live/
 
 ## License
 BitDaric is released under the terms of the MIT license. See [COPYING](COPYING)

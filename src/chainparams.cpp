@@ -123,8 +123,8 @@ public:
         assert(consensus.hashGenesisBlock == uint256S("0xeb32c4b2f6f4abda7b87ba4326c59d27b9cc9b3a7cd99636ee1e164a3acb0621"));
         assert(genesis.hashMerkleRoot == uint256S("0xe57a762b6fd741a151d13d09eec6a5362cef74204e3112d87ad698ae89384df8"));
 
-        vSeeds.push_back(CDNSSeedData("seed.bitdaric.com", "server1.bitdaric.com"));
-        vSeeds.push_back(CDNSSeedData("seed2.bitdaric.com", "server2.bitdaric.com"));
+        vSeeds.push_back(CDNSSeedData("seed.bitdaric.live", "server1.bitdaric.live"));
+        vSeeds.push_back(CDNSSeedData("seed2.bitdaric.live", "server2.bitdaric.live"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,60);  // 0x3c (R)
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,22);  // 0x16
@@ -239,7 +239,7 @@ public:
 
         vFixedSeeds.clear();
         vSeeds.clear();
-        vSeeds.push_back(CDNSSeedData("testseed.bitdaric.com", "testserver1.bitdaric.com"));
+        vSeeds.push_back(CDNSSeedData("testseed.bitdaric.live", "testserver1.bitdaric.live"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1,127); // 0x7f (t)
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1,196); // 0xc4

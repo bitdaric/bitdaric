@@ -1,7 +1,7 @@
 --- 
 name: bitdaric
 urls:
-- http://bitdaric.com/bitdaric-latest-linux-gitian.zip
+- http://bitdaric.live/bitdaric-latest-linux-gitian.zip
 rss:
 - url: 
   xpath: //item/link/text()
