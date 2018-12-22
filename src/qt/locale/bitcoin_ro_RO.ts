@@ -2917,8 +2917,8 @@
         <translation>Copyright (C) 2009-%i Dezvoltatorii Bitcoin</translation>
     </message>
     <message>
-        <source>Copyright (C) 2018-%i The BitDaric Core Developers</source>
-        <translation>Copyright (C) 2018-%i Dezvoltatorii BitDaric</translation>
+        <source>Copyright (C) 2019-%i The BitDaric Core Developers</source>
+        <translation>Copyright (C) 2019-%i Dezvoltatorii BitDaric</translation>
     </message>
     <message>
         <source>Error reading from database, shutting down.</source>

@@ -2915,8 +2915,8 @@ rpcpassword=%s
         <translation>Все права защищены © 2009-%i Разработчики Bitcoin Core</translation>
     </message>
     <message>
-        <source>Copyright (C) 2018-%i The BitDaric Core Developers</source>
-        <translation>Все права защищены © 2018-%i Разработчики BitDaric Core</translation>
+        <source>Copyright (C) 2019-%i The BitDaric Core Developers</source>
+        <translation>Все права защищены © 2019-%i Разработчики BitDaric Core</translation>
     </message>
     <message>
         <source>Could not parse -rpcbind value %s as network address</source>

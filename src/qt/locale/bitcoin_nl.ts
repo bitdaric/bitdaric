@@ -3014,8 +3014,8 @@
         <translation>Auteursrecht (C) 2009-%i De Bitcoin Core Ontwikkelaars</translation>
     </message>
     <message>
-        <source>Copyright (C) 2018-%i The BitDaric Core Developers</source>
-        <translation>Auteursrecht (C) 2018-%i De BitDaric Core Ontwikkelaars</translation>
+        <source>Copyright (C) 2019-%i The BitDaric Core Developers</source>
+        <translation>Auteursrecht (C) 2019-%i De BitDaric Core Ontwikkelaars</translation>
     </message>
     <message>
         <source>Could not parse -rpcbind value %s as network address</source>

@@ -3173,8 +3173,8 @@ Beispiel: alertnotify=echo %%s | mail -s "BitDaric Alert" admin@foo.com
         <translation>Urheberrecht (C) 2009-%i Die "Bitcoin Core"-Entwickler</translation>
     </message>
     <message>
-        <source>Copyright (C) 2018-%i The BitDaric Core Developers</source>
-        <translation>Urheberrecht (C) 2018-%i Die "BitDaric Core"-Entwickler</translation>
+        <source>Copyright (C) 2019-%i The BitDaric Core Developers</source>
+        <translation>Urheberrecht (C) 2019-%i Die "BitDaric Core"-Entwickler</translation>
     </message>
     <message>
         <source>Could not parse -rpcbind value %s as network address</source>

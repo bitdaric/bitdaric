@@ -3169,8 +3169,8 @@ mesela: alertnotify=echo %%s | mail -s "BitDaric Alert" admin@foo.com
         <translation>Telif hakkı 2009-%i Bitcoin Çekirdeği Geliştiricileri</translation>
     </message>
     <message>
-        <source>Copyright (C) 2018-%i The BitDaric Core Developers</source>
-        <translation>Telif hakkı 2018-%i BitDaric Çekirdeği Geliştiricileri</translation>
+        <source>Copyright (C) 2019-%i The BitDaric Core Developers</source>
+        <translation>Telif hakkı 2019-%i BitDaric Çekirdeği Geliştiricileri</translation>
     </message>
     <message>
         <source>Could not parse -rpcbind value %s as network address</source>

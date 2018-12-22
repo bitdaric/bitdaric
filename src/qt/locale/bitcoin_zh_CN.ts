@@ -3187,8 +3187,8 @@ rpcpassword=%s
         <translation>版权所有 (C) 2009-%i Bitcoin Core 开发者</translation>
     </message>
     <message>
-        <source>Copyright (C) 2018-%i The BitDaric Core Developers</source>
-        <translation>版权所有 (C) 2018-%i BitDaric Core 开发者</translation>
+        <source>Copyright (C) 2019-%i The BitDaric Core Developers</source>
+        <translation>版权所有 (C) 2019-%i BitDaric Core 开发者</translation>
     </message>
     <message>
         <source>Could not parse -rpcbind value %s as network address</source>
